@@ -4,21 +4,22 @@ import timeout from "../../utils/timeout";
 import Game from "../../interface/Game";
 import ColorButton from "../ColorButton/ColorButton";
 
+const initializeGame: Game = {
+    displayingColors: false,
+    colors: [],
+    score: 0,
+    userTurn: false,
+    userColors: []
+};
+
 function Simon() {
     /********************************************************  
      *                      Game LOGIC 
      ********************************************************/
     const colorList = ["green", "red", "yellow", "blue"];
 
-    const initializeGame: Game = {
-        displayingColors: false,
-        colors: [],
-        score: 0,
-        userTurn: false,
-        userColors: []
-    };
 
-    // State
+    // UseState
     const [isActive, setActive] = useState(false);
     const [gameData, setGameData] = useState(initializeGame);
     const [flashColor, setFlashColor] = useState("");
@@ -27,8 +28,27 @@ function Simon() {
         setActive(true);
     }
 
+    async function playTurnColors() {
+        await timeout(1000);
+        for (let i= 0; i < gameData.colors.length; i++) {
+            setFlashColor(gameData.colors[i]);
+            await timeout(1000);
+            setFlashColor("");
+            await timeout(1000);
 
-    // useEffects
+            if (i === gameData.colors.length -1){
+
+                setGameData(gameData => ({
+                    ...gameData,
+                    displayingColors: false,
+                    userTurn: true,
+                    userColors: [...gameData.colors].reverse(),
+                }))
+            }
+        }
+    }
+
+    // UseEffect
     useEffect(() => {
         if (isActive) {
             setGameData({ ...initializeGame, displayingColors: true})
@@ -47,7 +67,7 @@ function Simon() {
 
             // Add a new color to the copy, then replace turn data
             copyColors.push(newColor);
-            setGameData({...gameData, colors: copyColors});
+            setGameData(gameData =>({...gameData, colors: copyColors}));
         }
     
     }, [ gameData.displayingColors, colorList, gameData, isActive ]);
@@ -58,26 +78,7 @@ function Simon() {
         }
     }, [isActive, gameData.displayingColors, gameData.colors.length, playTurnColors])
 
-    async function playTurnColors() {
-        await timeout(1000);
-        for (let i= 0; i < gameData.colors.length; i++) {
-            setFlashColor(gameData.colors[i]);
-            await timeout(1000);
-            setFlashColor("");
-            await timeout(1000);
 
-            if (i === gameData.colors.length -1){
-                const copyColors = [...gameData.colors];
-
-                setGameData({
-                    ...gameData,
-                    displayingColors: false,
-                    userTurn: true,
-                    userColors: copyColors.reverse(),
-                })
-            }
-        }
-    }
 
     async function buttonClick(color: string) {
         // Make sure the player can't initiate click function during replay
@@ -90,17 +91,17 @@ function Simon() {
                 setGameData({ ...gameData, userColors: copyUserColors });
             } else {
                 await timeout(1000);
-                setGameData({
+                setGameData(gameData => ({
                     ...gameData,
                     displayingColors: true,
                     userTurn: false,
                     score: gameData.colors.length,
                     userColors: [],
-                });
+                }));
             }
         } else {
             await timeout(1000);
-            setGameData({...initializeGame, score: gameData.colors.length});
+            setGameData(gameData =>({...initializeGame, score: gameData.colors.length}));
         }
         await timeout(1000);
         setFlashColor("");
