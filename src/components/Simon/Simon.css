@@ -13,9 +13,11 @@ h1 {
     font-size: 30px;
 	text-align: center; 
 }
+
 .container {
     margin-top:25px;
 }
+
 .simon {
     position: relative;
     width: 600px;
@@ -120,21 +122,6 @@ h1 {
     opacity: 0.9;
 }
 
-.controls {
-    width: 400px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.message {
-    padding: 15px;
-	color: #36383f;
-    background-color: #1a1b1f;
-    border-radius: 5px;
-    margin: 30px;
-    border: 1px solid #26272a;
-}
-
 .simon-button {
     border: 0;
     background-color: #222;
@@ -153,8 +140,6 @@ h1 {
     padding-bottom: 20px;
 }
 
-
-
 button:active {
     background-color: #686c79;
 }
@@ -167,17 +152,11 @@ button:active {
     outline: none;
 }
 
-
-.score {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-
-    border-radius: 50%;
-    line-height: 100px;
-    font-size: 50px;
+.final-score {
+    color: #FFF;
+    font-size: 28px;
   }
-  
+
   .lost {
     position: absolute;
     width: 400px;
@@ -191,27 +170,9 @@ button:active {
     align-items: center;
     flex-direction: column;
   }
+
   .flash.flash {
-    border: 3px solid white;
+    border: 6px solid white;
     box-sizing: border-box;
   }
   
-
-  .red.flash {
-    background-color: rgb(255, 137, 137);
-  }
-  
-
-  .blue.flash {
-    background-color: rgb(162, 162, 255);
-  }
-  
-
-  .green.flash {
-    background-color: rgb(174, 254, 174);
-  }
-
-  .yellow.flash {
-    background-color: rgb(252, 252, 200);
-  }
-
