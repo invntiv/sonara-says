@@ -1,0 +1,217 @@
+body {
+    background-color: #333333;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    margin:0;
+    font-family: Arial;
+    font-weight: 700;
+}
+
+h1 {
+    color: #36383f;
+    font-size: 30px;
+	text-align: center; 
+}
+.container {
+    margin-top:25px;
+}
+.simon {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.simon-outer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background-color: #000000;
+    border-radius: 50%;
+		-webkit-box-shadow: 0 0 1px black;
+    box-shadow: 0 0 1px black;
+	border-bottom: 3px solid black;
+}
+
+.simon-inner {
+    margin: 30px;
+}
+
+.cutout{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    line-height: 100px;
+    text-align: center;
+    color: #1c1d1e;
+    font-size: 55px;
+    
+    /* simulate hole in the center using background */
+    border: 16px solid #000000;
+	background-color: #333;
+    border-radius: 50%;
+}
+
+.green {
+    background-color: #098e1b !important;
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    /* pointer cursor gives adds 'clickability' */
+	cursor: pointer;
+    /* use border radius of the div to make make rounded corner */
+    border-radius: 100% 0 0 0%;
+}
+
+.red {
+    background-color: #9a1408 !important;
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+	cursor: pointer;
+    border-radius: 0 100% 0 0;
+}
+
+.yellow {
+    background-color: #fedd00 !important;
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+	cursor: pointer;
+    border-radius: 0 0 0 100%;
+}
+
+.blue {
+    background-color: #004a90 !important;
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+	cursor: pointer;
+    border-radius: 0 0 100% 0;
+}
+
+.green:hover,
+.red:hover,
+.yellow:hover,
+.blue:hover,
+/* class will be used to trigger the turm */
+.flash {
+    box-shadow: 0 0 30px #979caf;
+    border: 1px solid #979caf;
+}
+
+.green:active,
+.red:active,
+.yellow:active,
+.blue:active {
+    box-shadow: 0 0 15px #585b66;
+    border: 1px solid #d0d2d6;
+    opacity: 0.9;
+}
+
+.controls {
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.message {
+    padding: 15px;
+	color: #36383f;
+    background-color: #1a1b1f;
+    border-radius: 5px;
+    margin: 30px;
+    border: 1px solid #26272a;
+}
+
+.simon-button {
+    border: 0;
+    background-color: #222;
+    padding: 15px 30px;
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 0 1px black;
+    border: 1px solid #ffffff;
+    cursor: pointer;
+}
+
+.start-button{
+    width: 100px;
+    margin-top:20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+
+
+button:active {
+    background-color: #686c79;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+*:focus{
+    outline: none;
+}
+
+
+.score {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+    line-height: 100px;
+    font-size: 50px;
+  }
+  
+  .lost {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-color: black;
+    border-radius: 50%;
+    line-height: 100px;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .flash.flash {
+    border: 3px solid white;
+    box-sizing: border-box;
+  }
+  
+
+  .red.flash {
+    background-color: rgb(255, 137, 137);
+  }
+  
+
+  .blue.flash {
+    background-color: rgb(162, 162, 255);
+  }
+  
+
+  .green.flash {
+    background-color: rgb(174, 254, 174);
+  }
+
+  .yellow.flash {
+    background-color: rgb(252, 252, 200);
+  }
+
