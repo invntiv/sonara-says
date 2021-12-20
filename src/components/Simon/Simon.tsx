@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import timeout from "../../utils/timeout";
 import Game from "../../interface/Game";
 import ColorButton from "../ColorButton/ColorButton";
-import { getParseTreeNode } from "typescript";
+
 
 const colorList = ["green", "red", "yellow", "blue"];
 
@@ -151,7 +151,7 @@ function Simon() {
 
         {isActive && !gameData.displayingColors && !gameData.userTurn && gameData.score && (
             <div>
-            <div className="simon-outer">
+            <div className="blackout">
             <div className="crying-face">😢 </div>
             </div>
                 <button onClick={endGame} className="start-end-button">End</button>
