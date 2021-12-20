@@ -1,8 +1,9 @@
 import "./Simon.css";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import timeout from "../../utils/timeout";
 import Game from "../../interface/Game";
 import ColorButton from "../ColorButton/ColorButton";
+import { getParseTreeNode } from "typescript";
 
 const colorList = ["green", "red", "yellow", "blue"];
 
@@ -33,8 +34,10 @@ function Simon() {
 
     // UseEffect
     useEffect(() => {
+        // When the component reloads (after gameData is being set!)
         /// Function we'll use to display the colors:
         async function playTurnColors() {
+
             await timeout(1000);
             for (let i = 0; i < gameData.colors.length; i++) {
                 setFlashColor(gameData.colors[i]);
@@ -53,57 +56,58 @@ function Simon() {
             }
         }
 
-        // If the game is active, and it's the Game's turn (displayingColors), and we have colors to display then run:
+        // If the game is active, and we're displaying the color sequence, and we have colors to display then run:
         if (isActive && gameData.displayingColors && gameData.colors.length) {
             playTurnColors();
         }
     }, [isActive, gameData.displayingColors, gameData.colors])
 
     useEffect(() => {
+        // Only runs during gameplay and when were displaying the color sequence
         if (isActive && gameData.displayingColors) {
             // Select a random color
             let newColor = colorList[Math.floor(Math.random() * 4)];
-            console.log("new color:" + newColor);
             setGameData((gameData) => ({
                 ...gameData,
                 colors: [...gameData.colors, newColor]
             }));
-            console.log("colors are:");
-            for(let i=0; i <gameData.colors.length; i++){
-                console.log(i + " : " + gameData.colors[i]);
-            }
         }
       }, [gameData.displayingColors, isActive]);
 
 
     async function buttonClick(color: string) {
-        
-        // Make sure the player can't initiate click function during replay 
-        if(!gameData.displayingColors && gameData.userTurn){
+        //  if it's the user's turn to repeat the sequence...
+        if(!gameData.displayingColors && gameData.userTurn) {
+            // copy the array which is gameData.color in reverse
             const copyUserColors = [...gameData.userColors];
-            console.log("user colors:" + copyUserColors)
             const prevColor = copyUserColors.pop();
-            console.log("prevColor is: " + prevColor);
             setFlashColor(color);
+            // at this point we've popped the top item off the copy, and flashed the one we've clicked
 
-            if (color === prevColor){
+            // Check if the color matches. if it DOESNT, the game ends.
+            // If it does match, the user has selected correctly and we can update userColors.
+            // We also need to check for when the sequence is over and the turn passes and update the score
+            
+            if (color === prevColor){ // the user has guessed correctly
+                // check if theres any left
                 setGameData({ ...gameData, userColors: copyUserColors });
+                if(copyUserColors.length === 0 || copyUserColors.length === undefined) {
+                    // the user has repeated the whole sequence
+                    timeout(timeoutLengthMs);
+                    setGameData(gameData => ({
+                        ...gameData,
+                        displayingColors: true,
+                        userTurn: false,
+                        score: gameData.colors.length,
+                        userColors: [],
+                    }));
+                }
             } else {
-                timeout(timeoutLengthMs);
-                setGameData(gameData => ({
-                    ...gameData,
-                    displayingColors: true,
-                    userTurn: false,
-                    score: gameData.colors.length,
-                    userColors: [],
-                }));
+                setGameData(gameData =>({...initializeGame, score: gameData.colors.length}));
             }
-        } else {
-            timeout(timeoutLengthMs);
-            setGameData(gameData =>({...initializeGame, score: gameData.colors.length}));
-        }
-        await timeout(timeoutLengthMs);
-        setFlashColor("");
+            await timeout(timeoutLengthMs);
+            setFlashColor("");
+        } 
     }   
 
     function endGame() {
@@ -131,17 +135,10 @@ function Simon() {
                             key={colorList[i]}
                         ></ColorButton>
                         ))}
-
-                        {isActive && !gameData.displayingColors && !gameData.userTurn && gameData.score && (
-                        <div className="simon-outer">
-                            <div className="final-score"> Final Score: {gameData.score}</div>
-                            <button onClick={endGame}>End</button>
-                        </div>
-                        )}
                 
                     <div className="cutout">
                         {isActive && (gameData.displayingColors || gameData.userTurn) && (
-                        <div>{gameData.score}</div>
+                            <div>{gameData.score}</div>
                         )}
                     </div>
                 </div>
@@ -149,7 +146,17 @@ function Simon() {
         </div>
 
         {!isActive && !gameData.score && (
-        <button onClick={startGame} className="start-button">Start</button>
+            <button onClick={startGame} className="start-end-button">Start</button>
+        )}
+
+        {isActive && !gameData.displayingColors && !gameData.userTurn && gameData.score && (
+            <div>
+            <div className="simon-outer">
+            <div className="crying-face">😢 </div>
+            </div>
+                <button onClick={endGame} className="start-end-button">End</button>
+                <div className="final-score">Final Score: {gameData.score - 1}</div>
+            </div>
         )}
 
     </div>

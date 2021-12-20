@@ -107,8 +107,8 @@ h1 {
 .red:hover,
 .yellow:hover,
 .blue:hover,
-/* class will be used to trigger the turm */
 .flash {
+    border: 6px solid white;
     box-shadow: 0 0 30px #979caf;
     border: 1px solid #979caf;
 }
@@ -133,11 +133,12 @@ h1 {
     cursor: pointer;
 }
 
-.start-button{
+.start-end-button{
     width: 100px;
     margin-top:20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
 }
 
 button:active {
@@ -153,6 +154,7 @@ button:active {
 }
 
 .final-score {
+    margin-top:20px;
     color: #FFF;
     font-size: 28px;
   }
@@ -171,8 +173,14 @@ button:active {
     flex-direction: column;
   }
 
+  .crying-face {
+      font-size: 300px;
+     padding-top: 15px;
+  }
+
   .flash.flash {
-    border: 6px solid white;
+    box-shadow: 0 0 30px #979caf;
+    border: 1px solid #979caf;
     box-sizing: border-box;
   }
   
