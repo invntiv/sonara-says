@@ -4,6 +4,8 @@ import timeout from "../../utils/timeout";
 import Game from "../../interface/Game";
 import ColorButton from "../ColorButton/ColorButton";
 
+const colorList = ["green", "red", "yellow", "blue"];
+const timeoutLengthMs: number = 1000;
 const initializeGame: Game = {
     displayingColors: false,
     colors: [],
@@ -13,11 +15,10 @@ const initializeGame: Game = {
 };
 
 function Simon() {
+    
     /********************************************************  
      *                      Game LOGIC 
      ********************************************************/
-    const colorList = ["green", "red", "yellow", "blue"];
-
 
     // UseState
     const [isActive, setActive] = useState(false);
@@ -26,36 +27,35 @@ function Simon() {
 
     function startGame() {
         setActive(true);
+        setGameData({ ...initializeGame, displayingColors: true})
     }
 
-    async function playTurnColors() {
-        await timeout(1000);
-        for (let i= 0; i < gameData.colors.length; i++) {
-            setFlashColor(gameData.colors[i]);
-            await timeout(1000);
-            setFlashColor("");
-            await timeout(1000);
 
-            if (i === gameData.colors.length -1){
-
-                setGameData(gameData => ({
-                    ...gameData,
-                    displayingColors: false,
-                    userTurn: true,
-                    userColors: [...gameData.colors].reverse(),
-                }))
+    useEffect(() => {
+        async function playTurnColors() {
+            await timeout(1000);
+            for (let i= 0; i < gameData.colors.length; i++) {
+                setFlashColor(gameData.colors[i]);
+                await timeout(1000);
+                setFlashColor("");
+                await timeout(1000);
+    
+                if (i === gameData.colors.length -1){
+    
+                    setGameData(gameData => ({
+                        ...gameData,
+                        displayingColors: false,
+                        userTurn: true,
+                        userColors: [...gameData.colors].reverse(),
+                    }))
+                }
             }
         }
-    }
 
-    // UseEffect
-    useEffect(() => {
-        if (isActive) {
-            setGameData({ ...initializeGame, displayingColors: true})
-        } else {
-            setGameData(initializeGame);
+        if (isActive && gameData.displayingColors && gameData.colors.length) {
+            playTurnColors();
         }
-    },[isActive, initializeGame])
+    }, [isActive, gameData.displayingColors, gameData.colors])
 
     useEffect(() => {
         if (isActive && gameData.displayingColors) {
@@ -70,13 +70,7 @@ function Simon() {
             setGameData(gameData =>({...gameData, colors: copyColors}));
         }
     
-    }, [ gameData.displayingColors, colorList, gameData, isActive ]);
-
-    useEffect(() => {
-        if (isActive && gameData.displayingColors && gameData.colors.length) {
-            playTurnColors();
-        }
-    }, [isActive, gameData.displayingColors, gameData.colors.length, playTurnColors])
+    }, [ gameData.displayingColors, gameData, isActive ]);
 
 
 
@@ -90,7 +84,7 @@ function Simon() {
             if (color === prevColor){
                 setGameData({ ...gameData, userColors: copyUserColors });
             } else {
-                await timeout(1000);
+                timeout(timeoutLengthMs);
                 setGameData(gameData => ({
                     ...gameData,
                     displayingColors: true,
@@ -100,15 +94,16 @@ function Simon() {
                 }));
             }
         } else {
-            await timeout(1000);
+            timeout(timeoutLengthMs);
             setGameData(gameData =>({...initializeGame, score: gameData.colors.length}));
         }
-        await timeout(1000);
+        await timeout(timeoutLengthMs);
         setFlashColor("");
     }   
 
     function endGame() {
         setActive(false);
+        setGameData(initializeGame);
     }
 
     /********************************************************  
