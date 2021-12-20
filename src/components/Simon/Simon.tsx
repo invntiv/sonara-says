@@ -5,7 +5,9 @@ import Game from "../../interface/Game";
 import ColorButton from "../ColorButton/ColorButton";
 
 const colorList = ["green", "red", "yellow", "blue"];
+
 const timeoutLengthMs: number = 1000;
+
 const initializeGame: Game = {
     displayingColors: false,
     colors: [],
@@ -19,7 +21,6 @@ function Simon() {
     /********************************************************  
      *                      Game LOGIC 
      ********************************************************/
-
     // UseState
     const [isActive, setActive] = useState(false);
     const [gameData, setGameData] = useState(initializeGame);
@@ -30,7 +31,7 @@ function Simon() {
         setGameData({ ...initializeGame, displayingColors: true})
     }
 
-
+    // UseEffect
     useEffect(() => {
         async function playTurnColors() {
             await timeout(1000);
