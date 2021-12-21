@@ -159,6 +159,12 @@ function Simon() {
             <button onClick={startGame} className="start-end-button">Start</button>
         )}
 
+        {isActive && !gameData.displayingColors && !gameData.userTurn && gameData.score && (
+            <div>
+                <button onClick={endGame} className="start-end-button">End</button>
+                <div className="final-score">Final Score: {gameData.score - 1}</div>
+            </div>
+        )}
 
     </div>
     )

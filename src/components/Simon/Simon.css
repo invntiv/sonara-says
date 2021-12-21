@@ -156,6 +156,7 @@ button:active {
 .final-score {
     color: #FFF;
     font-size: 28px;
+    margin: 10px;
   }
 
   .lost {
