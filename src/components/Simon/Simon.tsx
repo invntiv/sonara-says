@@ -141,6 +141,16 @@ function Simon() {
                             <div>{gameData.score}</div>
                         )}
                     </div>
+
+        {isActive && !gameData.displayingColors && !gameData.userTurn && gameData.score && (
+            <div className="simon-outer">
+                <div className="blackout">
+                    <div className="crying-face">😢 </div>
+                </div>
+                <button onClick={endGame} className="start-end-button">End</button>
+                <div className="final-score">Final Score: {gameData.score - 1}</div>
+            </div>
+        )}
                 </div>
             </div>
         </div>
@@ -149,15 +159,6 @@ function Simon() {
             <button onClick={startGame} className="start-end-button">Start</button>
         )}
 
-        {isActive && !gameData.displayingColors && !gameData.userTurn && gameData.score && (
-            <div>
-            <div className="blackout">
-            <div className="crying-face">😢 </div>
-            </div>
-                <button onClick={endGame} className="start-end-button">End</button>
-                <div className="final-score">Final Score: {gameData.score - 1}</div>
-            </div>
-        )}
 
     </div>
     )

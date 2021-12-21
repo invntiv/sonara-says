@@ -173,7 +173,6 @@ button:active {
   }
 
   .blackout {
-    margin-top: -279px;
     position: absolute;
     top: 50%;
     left: 50%;
