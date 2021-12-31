@@ -4,5 +4,5 @@ export default interface Game {
     colors: string[],
     score: number,
     userTurn: boolean,
-    userColors: string[]
+    userColors: string[],
 }
